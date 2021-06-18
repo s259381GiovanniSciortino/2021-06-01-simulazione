@@ -5,6 +5,8 @@
 package it.polito.tdp.genes;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.genes.model.Genes;
@@ -30,7 +32,7 @@ public class FXMLController {
     private Button btnCreaGrafo; // Value injected by FXMLLoader
 
     @FXML // fx:id="cmbGeni"
-    private ComboBox<?> cmbGeni; // Value injected by FXMLLoader
+    private ComboBox<Genes> cmbGeni; // Value injected by FXMLLoader
 
     @FXML // fx:id="btnGeniAdiacenti"
     private Button btnGeniAdiacenti; // Value injected by FXMLLoader
@@ -46,14 +48,21 @@ public class FXMLController {
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
-    	
-
+    	String msg = model.doCreaGrafo();
+    	txtResult.appendText(msg);
+    	List<Genes> vertici = new ArrayList<>(model.getVertex());
+    	cmbGeni.getItems().clear();
+    	cmbGeni.getItems().addAll(vertici);
     }
 
     @FXML
     void doGeniAdiacenti(ActionEvent event) {
-
-    	
+    	if(cmbGeni==null) {
+    		txtResult.appendText("Seleziona un geni");
+    		return;
+    	}
+    	String msg = model.doGeniAdiacenti(cmbGeni.getValue());
+    	txtResult.appendText(msg);
     }
 
     @FXML
